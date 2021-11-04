@@ -6,6 +6,7 @@ import numpy as np
 
 def gensim_to_torch_embedding(gensim_wv):
     """
+    
     - Add type hints on input and output
     - add function description
     - understand the pad and unk embeddings, add an argument which makes these optional. 
