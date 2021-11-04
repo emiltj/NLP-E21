@@ -1,7 +1,16 @@
-from typing import List
+import numpy as np
+import torch
+
 from datasets import load_dataset
 import gensim.downloader as api
 
+<<<<<<< HEAD
+=======
+from util import batch
+from LSTM import RNN
+from embedding import gensim_to_torch_embedding
+
+>>>>>>> e4732e9599727118ad40b72a55bf0aceda78a541
 # DATASET
 dataset = load_dataset("conllpp")
 train = dataset["train"]
@@ -15,14 +24,15 @@ classes
 num_classes
 
 # CONVERTING EMBEDDINGS
+<<<<<<< HEAD
 import numpy as np
 import torch
 
+=======
+>>>>>>> e4732e9599727118ad40b72a55bf0aceda78a541
 model = api.load("glove-wiki-gigaword-50")
 type(model)
 model.vectors.shape
-
-from embedding import gensim_to_torch_embedding
 
 # convert gensim word embedding to torch word embedding
 embedding_layer, vocab = gensim_to_torch_embedding(model)
@@ -31,7 +41,21 @@ embedding_layer
 vocab
 
 # PREPARING A BATCH
+<<<<<<< HEAD
 def tokens_to_idx(tokens: List[str], vocab: dict = model.key_to_index) -> List[int]:
+=======
+
+# shuffle dataset
+shuffled_train = dataset["train"].shuffle(seed=1)
+
+# batch it using a utility function (don't spend time on the function, but make sure you understand the output)
+batch_size = 10
+batches_tokens = batch(shuffled_train["tokens"], batch_size)
+batches_tags = batch(shuffled_train["ner_tags"], batch_size)
+
+
+def tokens_to_idx(tokens, vocab=model.key_to_index):
+>>>>>>> e4732e9599727118ad40b72a55bf0aceda78a541
     """
     Ideas to understand this function:
     - Write documentation for this function including type hints for each arguement and return statement
@@ -46,9 +70,9 @@ asda.append("ajskd")
 asda
 tokens_to_idx(asda)
 
-# sample batch of 10 sentences
-batch_tokens = train["tokens"][:10]
-batch_tags = train["ner_tags"][:10]
+# sample using only the first batch
+batch_tokens = next(batches_tokens)
+batch_tags = next(batches_tags)
 batch_tok_idx = [tokens_to_idx(sent) for sent in batch_tokens]
 batch_size = len(batch_tokens)
 
@@ -70,14 +94,17 @@ for i in range(batch_size):
     batch_input[i][:size] = tok_idx
     batch_labels[i][:size] = tags
 
+<<<<<<< HEAD
 # since all data are indices, we convert them to torch LongTensors
+=======
+
+# since all data are indices, we convert them to torch LongTensors (integers)
+>>>>>>> e4732e9599727118ad40b72a55bf0aceda78a541
 batch_input, batch_labels = torch.LongTensor(batch_input), torch.LongTensor(
     batch_labels
 )
 
 # CREATE MODEL
-from LSTM import RNN
-
 model = RNN(
     embedding_layer=embedding_layer, output_dim=num_classes + 1, hidden_dim_size=256
 )
