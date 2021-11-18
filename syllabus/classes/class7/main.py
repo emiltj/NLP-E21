@@ -4,13 +4,6 @@ import torch
 from datasets import load_dataset
 import gensim.downloader as api
 
-<<<<<<< HEAD
-=======
-from util import batch
-from LSTM import RNN
-from embedding import gensim_to_torch_embedding
-
->>>>>>> e4732e9599727118ad40b72a55bf0aceda78a541
 # DATASET
 dataset = load_dataset("conllpp")
 train = dataset["train"]
